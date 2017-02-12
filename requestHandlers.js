@@ -3,25 +3,21 @@ var exec = require('child_process').exec;
 function start(response) {
     console.log('request handler "start" was called.');
 
-    
+    var body = '<html>' +
+        '<head>' +
+        '<meta http-equiv="content-Type" content="text/html; charset=UTF-8 />' +
+        '</head>' +
+        '<body>' +
+        '<form action="/upload" method="post">' +
+        '<textarea name="text" rows="20" cols="60"></textarea>' +
+        '<input type="submit" value="Submit text" />' +
+        '</form>' +
+        '</body>' +
+        '</html>';
 
-    /* // this blocking function stops fn upload() from immediately executing
-    function sleep(msec) {
-        var startTime = new Date().getTime();
-        while (new Date().getTime() < startTime + msec);
-    }
-   
-     sleep(10000); // Node.js waits 10 sec and only then returns '...' */
-
-    // exec is a non-blocking operation
-    // it executes a shell command from within Node.js
-    exec('ls-lah', function(error, stdout, stderr){
-        response.writeHead(200, { 'Content-Type': 'text/plain' });
-        response.write(stdout);
-        response.end();
-
-    });
-
+    response.writeHead(200, { 'Content-Type': 'text/html' });
+    response.write(body);
+    response.end();
 }
 
 function upload(response) {
