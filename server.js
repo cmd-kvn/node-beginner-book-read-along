@@ -10,11 +10,13 @@ function start(route, handle) {
 
         request.setEncoding('utf8');
 
+        // called when new chunk of data was received
         request.addListener('data', function(postDataChunk) {
             postData += postDataChunk;
             console.log(`received POST data chunk ${postDataChunk}.`);
         });
 
+        // called when all chunks of data have been received
         request.addListener('end', function(){
             route(handle, pathname, response, postData);
         });
