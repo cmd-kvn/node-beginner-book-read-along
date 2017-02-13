@@ -4,22 +4,9 @@ var url = require('url');
 
 function start(route, handle) {
     function onRequest(request, response) {
-        var postData = '';
         var pathname = url.parse(request.url).pathname;
         console.log(`Request for ${pathname} received`);
-
-        request.setEncoding('utf8');
-
-        // called when new chunk of data was received
-        request.addListener('data', function(postDataChunk) {
-            postData += postDataChunk;
-            console.log(`received POST data chunk ${postDataChunk}.`);
-        });
-
-        // called when all chunks of data have been received
-        request.addListener('end', function(){
-            route(handle, pathname, response, postData);
-        });
+        route(handle, pathname, response, request);
     }
 
     // `createServer` is a function on the http module and returns an object
